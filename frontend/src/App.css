@@ -1,0 +1,150 @@
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  color: #172033;
+  background: #f5f7fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; min-width: 320px; }
+
+button, input, select { font: inherit; }
+
+button { cursor: pointer; }
+
+button:disabled { cursor: wait; opacity: 0.7; }
+
+.app-shell { max-width: 1440px; margin: 0 auto; padding: 0 42px 24px; }
+
+.topbar {
+  min-height: 88px; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid #e4e8f0;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.brand-icon {
+  display: grid; place-items: center; width: 44px; height: 44px;
+  border-radius: 14px; background: #175cd3; color: white;
+  font: 800 24px Manrope, sans-serif;
+}
+
+.brand h1 { font: 800 21px Manrope, sans-serif; margin: 0; letter-spacing: -0.7px; }
+.brand p { margin: 3px 0 0; font-size: 12px; color: #7b8497; }
+
+.live-badge {
+  display: flex; align-items: center; gap: 8px; border: 1px solid #dfe6f1;
+  border-radius: 30px; padding: 9px 13px; background: white;
+  color: #475467; font-size: 12px; font-weight: 600;
+}
+
+.live-badge span { width: 7px; height: 7px; border-radius: 50%; background: #12b76a; }
+
+.welcome { padding: 34px 0 25px; }
+.eyebrow { color: #175cd3; font-size: 10px; font-weight: 800; letter-spacing: 1.4px; margin: 0 0 9px; }
+.welcome h2 { font: 800 clamp(27px, 3vw, 36px) Manrope, sans-serif; letter-spacing: -1.2px; margin: 0; }
+.welcome > p:last-child { color: #737e91; margin: 9px 0 0; font-size: 14px; line-height: 1.7; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 22px; }
+.stat-card { background: white; border: 1px solid #e8ecf3; border-radius: 15px; padding: 20px 22px; }
+.stat-card span { display: block; font-size: 12px; color: #778196; margin-bottom: 9px; }
+.stat-card strong { font: 800 28px Manrope, sans-serif; letter-spacing: -0.8px; }
+
+.main-grid { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: 22px; align-items: start; }
+.panel { background: white; border: 1px solid #e6eaf1; border-radius: 17px; padding: 24px; min-width: 0; }
+.panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 22px; }
+.panel-heading h3 { margin: 0; font: 800 19px Manrope, sans-serif; letter-spacing: -0.5px; }
+.panel-heading .eyebrow { margin-bottom: 7px; }
+.step-number { display: grid; place-items: center; background: #edf4ff; color: #175cd3; border-radius: 10px; width: 38px; height: 38px; font-size: 12px; font-weight: 800; }
+
+.loan-form { display: flex; flex-direction: column; gap: 17px; }
+.loan-form label { display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: #344054; font-weight: 700; }
+.loan-form input, .loan-form select {
+  width: 100%; border: 1px solid #dce2ec; border-radius: 9px; padding: 12px 13px;
+  outline: none; color: #172033; background: #fff; font-size: 13px; min-height: 43px;
+}
+.loan-form input:focus, .loan-form select:focus { border-color: #528bfa; box-shadow: 0 0 0 3px #175cd315; }
+.loan-form small { color: #98a2b3; font-weight: 400; font-size: 10px; margin-top: -3px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+
+.emi-preview { padding: 16px; border-radius: 12px; background: #f2f6ff; border: 1px solid #e1eaff; }
+.emi-preview span, .emi-preview small { display: block; color: #63718a; font-size: 11px; }
+.emi-preview strong { display: block; color: #175cd3; font: 800 26px Manrope, sans-serif; margin: 6px 0; }
+.emi-preview small { line-height: 1.5; }
+
+.primary-button { border: 0; border-radius: 9px; padding: 14px; background: #175cd3; color: white; font-size: 13px; font-weight: 700; }
+.primary-button:hover { background: #1249a8; }
+
+.refresh-button { background: white; border: 1px solid #dce2ec; border-radius: 8px; padding: 9px 12px; color: #475467; font-size: 11px; font-weight: 700; }
+.loan-list { display: flex; flex-direction: column; gap: 12px; max-height: 690px; overflow-y: auto; }
+.loan-item { border: 1px solid #e8ecf3; border-radius: 12px; padding: 13px; transition: border-color 0.15s; }
+.loan-item.selected { border-color: #7aa7ff; background: #fbfdff; }
+.loan-summary { display: flex; width: 100%; align-items: center; gap: 10px; border: 0; background: transparent; text-align: left; padding: 0; }
+.avatar { flex: 0 0 36px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: #eaf1ff; color: #175cd3; font-weight: 800; }
+.loan-person { flex: 1; min-width: 0; }
+.loan-person strong, .loan-person small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.loan-person strong { font-size: 12px; }
+.loan-person small { margin-top: 5px; color: #98a2b3; font-size: 10px; }
+.status { flex-shrink: 0; border-radius: 30px; padding: 5px 8px; font-size: 9px; font-weight: 800; letter-spacing: 0.3px; }
+.status-pending { color: #9a6700; background: #fff4d6; }
+.status-approved { color: #067647; background: #dff8ec; }
+.status-rejected { color: #b42318; background: #fee4e2; }
+.loan-meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #edf0f5; padding-top: 11px; margin-top: 12px; gap: 8px; }
+.loan-meta strong { font: 800 14px Manrope, sans-serif; }
+.loan-meta span { color: #7b8497; font-size: 10px; }
+.decision-actions { display: flex; gap: 8px; margin-top: 11px; }
+.decision-actions button { flex: 1; border-radius: 7px; padding: 8px; font-size: 10px; font-weight: 700; }
+.approve-button { color: #067647; background: #ecfdf3; border: 1px solid #abefc6; }
+.reject-button { color: #b42318; background: #fff1f0; border: 1px solid #fecdca; }
+.empty-state { text-align: center; padding: 46px 12px; color: #7b8497; }
+.empty-state > span { font-size: 30px; color: #98a2b3; }
+.empty-state strong { display: block; margin-top: 10px; font-size: 13px; color: #344054; }
+.empty-state p { font-size: 11px; line-height: 1.6; }
+
+.notice { padding: 12px 15px; border-radius: 9px; margin-bottom: 16px; font-size: 12px; overflow-wrap: anywhere; }
+.notice.error { background: #fff1f0; border: 1px solid #fecdca; color: #b42318; }
+.notice.success { background: #ecfdf3; border: 1px solid #abefc6; color: #067647; }
+
+.schedule-panel { margin-top: 22px; }
+.muted { color: #7b8497; font-size: 12px; margin: 7px 0 0; }
+.schedule-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.schedule-summary > div { padding: 15px; border-radius: 10px; background: #f7f9fc; }
+.schedule-summary span { display: block; color: #7b8497; font-size: 10px; margin-bottom: 7px; }
+.schedule-summary strong { font: 700 15px Manrope, sans-serif; overflow-wrap: anywhere; }
+.table-wrap { width: 100%; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; white-space: nowrap; font-size: 11px; }
+th { text-align: left; background: #f7f9fc; color: #667085; font-size: 10px; font-weight: 700; }
+th, td { padding: 13px 12px; border-bottom: 1px solid #edf0f5; }
+td { color: #344054; }
+tbody tr:last-child td { border-bottom: 0; }
+footer { text-align: center; padding: 28px 0 5px; color: #98a2b3; font-size: 10px; }
+
+@media (max-width: 950px) {
+  .app-shell { padding: 0 22px 22px; }
+  .main-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .app-shell { padding: 0 14px 18px; }
+  .topbar { min-height: 75px; }
+  .live-badge { font-size: 0; padding: 10px; }
+  .live-badge span { width: 8px; height: 8px; }
+  .welcome { padding-top: 26px; }
+  .stats-grid { gap: 8px; }
+  .stat-card { padding: 13px 11px; border-radius: 11px; }
+  .stat-card span { font-size: 10px; line-height: 1.4; }
+  .stat-card strong { font-size: 23px; }
+  .panel { padding: 17px; border-radius: 13px; }
+  .form-row { grid-template-columns: 1fr; }
+  .schedule-summary { grid-template-columns: 1fr; }
+  .panel-heading h3 { font-size: 17px; }
+}
