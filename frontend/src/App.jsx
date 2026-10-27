@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+
 const emptyForm = {
   applicant_name: "",
   applicant_email: "",
@@ -50,14 +51,28 @@ function App() {
     return data;
   }
 
-  async function loadLoans() {
-    try {
-      const data = await api("/api/loans/");
+  
+async function loadLoans() {
+  try {
+    const data = await api("/api/loans/");
+
+    console.log("Loans API response:", data);
+
+    // Django REST Framework may return a paginated response.
+    if (Array.isArray(data)) {
       setLoans(data);
-    } catch (err) {
-      setError(`Could not load loans: ${err.message}`);
+    } else if (Array.isArray(data.results)) {
+      setLoans(data.results);
+    } else {
+      console.error("Unexpected loans API response:", data);
+      setLoans([]);
+      setError("Unexpected response from the loans API.");
     }
+  } catch (err) {
+    setError(`Could not load loans: ${err.message}`);
   }
+}
+
 
   useEffect(() => {
     loadLoans();
@@ -142,19 +157,7 @@ function App() {
 
   return (
     <main className="app-shell">
-      <header className="topbar">
-        <div className="brand">
-          <div className="brand-icon">V</div>
-          <div>
-            <h1>VariCash</h1>
-            <p>Loan management workspace</p>
-          </div>
-        </div>
-        <span className="live-badge"><span /> Loan EMI Tracker</span>
-      </header>
-
       <section className="welcome">
-        <p className="eyebrow">FINANCIAL OVERVIEW</p>
         <h2>Loan EMI Tracker</h2>
         <p>Apply for a loan, review repayment schedules, and manage application statuses.</p>
       </section>
@@ -181,10 +184,8 @@ function App() {
         <article className="panel">
           <div className="panel-heading">
             <div>
-              <p className="eyebrow">GET STARTED</p>
               <h3>Apply for a loan</h3>
             </div>
-            <span className="step-number">01</span>
           </div>
 
           <form onSubmit={submitLoan} className="loan-form">
@@ -273,7 +274,6 @@ function App() {
         <article className="panel">
           <div className="panel-heading">
             <div>
-              <p className="eyebrow">APPLICATION REGISTER</p>
               <h3>Recent applications</h3>
             </div>
             <button className="refresh-button" onClick={loadLoans} type="button">
