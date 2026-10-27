@@ -1,6 +1,3 @@
-# Varicash — Loan EMI Tracker
-
-A full-stack loan application tracker built with Django REST Framework, PostgreSQL 16, React, and Docker Compose.
 
 ## Features
 
@@ -311,7 +308,9 @@ The final installment is adjusted for rounding, so the sum of the schedule's act
 - Add automated API and frontend tests.
 - Run the backend container as a non-root user.
 - Add structured logging and more detailed health monitoring.
+-User and Admin Roles: Separate customer and administrator dashboards with role-based access control.
 
 ## License
 
 This project was created as a take-home hiring assignment.
+
