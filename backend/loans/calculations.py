@@ -10,7 +10,7 @@ def money(value):
 
 
 def calculate_emi(principal, annual_interest_rate, tenure_months):
-    principal = Decimal(str(principal))
+    principal = Decimal(principal)
     annual_interest_rate = Decimal(str(annual_interest_rate))
 
     monthly_rate = annual_interest_rate / Decimal("1200")
@@ -42,7 +42,6 @@ def calculate_schedule(principal, annual_interest_rate, tenure_months):
         interest = money(balance * monthly_rate)
 
         if month == months:
-            # Adjust the final row to clear rounding differences.
             principal_component = balance
             actual_emi = money(principal_component + interest)
             balance = Decimal("0.00")
