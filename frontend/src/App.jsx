@@ -157,10 +157,6 @@ async function loadLoans() {
 
   return (
     <main className="app-shell">
-      <section className="welcome">
-        <h2>Loan EMI Tracker</h2>
-        <p>Apply for a loan, review repayment schedules, and manage application statuses.</p>
-      </section>
 
       {error && <div className="notice error" role="alert">{error}</div>}
       {message && <div className="notice success" role="status">{message}</div>}
@@ -212,8 +208,6 @@ async function loadLoans() {
                 required
               />
             </label>
-
-            <div className="form-row">
               <label>
                 Loan amount (₹)
                 <input
@@ -229,7 +223,7 @@ async function loadLoans() {
                 <small>₹10,000 – ₹50,00,000</small>
               </label>
 
-              <label>
+            <label>
                 Annual interest (%)
                 <input
                   type="number"
@@ -238,12 +232,11 @@ async function loadLoans() {
                   onChange={updateField}
                   min="1"
                   max="36"
-                  step="0.01"
+                  step="0.5"
                   required
                 />
                 <small>1% – 36%</small>
               </label>
-            </div>
 
             <label>
               Tenure
@@ -260,9 +253,8 @@ async function loadLoans() {
             </label>
 
             <div className="emi-preview">
-              <span>Estimated monthly EMI</span>
+              <span>Your Estimated monthly EMI</span>
               <strong>{money(calculatedEmi || 0)}</strong>
-              <small>Final values are calculated and rounded by the backend.</small>
             </div>
 
             <button className="primary-button" type="submit" disabled={loading}>
@@ -276,9 +268,6 @@ async function loadLoans() {
             <div>
               <h3>Recent applications</h3>
             </div>
-            <button className="refresh-button" onClick={loadLoans} type="button">
-              Refresh
-            </button>
           </div>
 
           <div className="loan-list">
@@ -299,9 +288,7 @@ async function loadLoans() {
                     type="button"
                     onClick={() => openLoan(loan.id)}
                   >
-                    <span className="avatar">
-                      {(loan.applicant_name || "?").charAt(0).toUpperCase()}
-                    </span>
+                   
                     <span className="loan-person">
                       <strong>{loan.applicant_name}</strong>
                       <small>Loan #{loan.id} · {loan.tenure_months} months</small>
