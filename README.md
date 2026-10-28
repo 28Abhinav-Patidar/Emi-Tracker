@@ -1,3 +1,6 @@
+# Loan EMI Tracker
+
+A small web app to apply for a loan, see the calculated EMI and repayment schedule, and approve or reject applications. Django REST Framework + PostgreSQL + React, all started with one `docker compose up --build`.
 
 ## Features
 
@@ -7,6 +10,7 @@
 - View a month-by-month repayment schedule.
 - Approve or reject pending loan applications.
 - Prevent status changes after a loan has been approved or rejected.
+- Manage loans in the Django admin (`/admin/`).
 - Use decimal arithmetic and two-decimal monetary rounding.
 - Persist loan data in PostgreSQL.
 
@@ -33,8 +37,9 @@ Python and Node.js do not need to be installed separately to run the containeriz
 2. Open a terminal in the project root.
 3. Create the local environment file:
 
-   ```powershell
-   Copy-Item .env.example .env
+   ```bash
+   cp .env.example .env            # macOS / Linux / Git Bash
+   Copy-Item .env.example .env     # Windows PowerShell
    ```
 
 4. Update `.env` with suitable local values for the Django secret key and PostgreSQL password.
@@ -108,6 +113,30 @@ The schedule endpoint returns each month's:
 - `remaining_balance`
 
 The schedule is computed when requested; it is not stored in the database.
+
+## Django Admin
+
+`Loan` is registered in the Django admin, with list columns, a status filter and search by name/email. Calculated fields (`emi`, `total_interest`, `total_payable`) are read-only there.
+
+Create an admin user once the stack is running, then open **http://localhost:8080/admin/**:
+
+```bash
+docker compose exec backend python manage.py createsuperuser
+```
+
+nginx forwards `/admin/` and `/static/` to the backend, and WhiteNoise serves the admin's CSS/JS from inside the backend container.
+
+## Running Tests
+
+```bash
+docker compose exec backend python manage.py test loans
+```
+
+The tests in `backend/loans/tests.py` cover:
+
+- EMI calculation, including the ₹8,884.88 sanity check and the range boundaries.
+- The repayment schedule: one row per month, final balance exactly `0.00`, principal components summing to the loan amount, and each row's EMI = principal + interest.
+- The API: backend-calculated EMI (client-sent `emi`/`status` ignored), 400 on invalid input, status changes allowed only while `PENDING`, and the schedule endpoint's shape.
 
 ## EMI Calculation
 
@@ -195,34 +224,34 @@ Command:
 docker network ls
 ```
 
-Observed result: Docker created `varicash_backend_net` and `varicash_frontend_net`.
+Observed result: Docker created `loan-emi-tracker_backend_net` and `loan-emi-tracker_frontend_net`.
 
 ### 3. Backend network inspection
 
 Command:
 
 ```powershell
-docker network inspect varicash_backend_net
+docker network inspect loan-emi-tracker_backend_net
 ```
 
-Observed result: the network contained `varicash-backend-1` and `varicash-db-1`, but not the frontend.
+Observed result: the network contained `loan-emi-tracker-backend-1` and `loan-emi-tracker-db-1`, but not the frontend.
 
 ### 4. Frontend network inspection
 
 Command:
 
 ```powershell
-docker network inspect varicash_frontend_net
+docker network inspect loan-emi-tracker_frontend_net
 ```
 
-Observed result: the network contained `varicash-frontend-1` and `varicash-backend-1`, but not PostgreSQL.
+Observed result: the network contained `loan-emi-tracker-frontend-1` and `loan-emi-tracker-backend-1`, but not PostgreSQL.
 
 ### 5. Frontend-to-backend connectivity
 
 Command:
 
 ```powershell
-docker exec varicash-frontend-1 sh -c "wget -qO- http://backend:8000/api/health/"
+docker exec loan-emi-tracker-frontend-1 sh -c "wget -qO- http://backend:8000/api/health/"
 ```
 
 Observed output:
@@ -238,7 +267,7 @@ This confirms that the frontend container can reach the backend using the Docker
 Command:
 
 ```powershell
-docker exec varicash-frontend-1 sh -c "wget -T 2 -qO- http://db:5432 || echo 'PASS: database is unreachable from frontend'"
+docker exec loan-emi-tracker-frontend-1 sh -c "wget -T 2 -qO- http://db:5432 || echo 'PASS: database is unreachable from frontend'"
 ```
 
 Observed output:
@@ -302,13 +331,11 @@ The final installment is adjusted for rounding, so the sum of the schedule's act
 
 ## Improvements With More Time
 
-- Add unit tests for EMI calculations, schedule rounding, and validation.
-- Register the loan model in Django admin.
 - Add filtering by status, such as `/api/loans/?status=PENDING`.
-- Add automated API and frontend tests.
+- Add frontend tests.
 - Run the backend container as a non-root user.
 - Add structured logging and more detailed health monitoring.
--User and Admin Roles: Separate customer and administrator dashboards with role-based access control.
+- User and admin roles: separate customer and administrator dashboards with role-based access control.
 
 ## License
 

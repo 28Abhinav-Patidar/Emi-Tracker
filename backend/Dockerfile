@@ -1,4 +1,3 @@
-
 FROM python:3.13-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -12,6 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 RUN chmod +x /app/entrypoint.sh
+
+# Bundle admin CSS/JS so WhiteNoise can serve it (no DB needed at build time).
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 

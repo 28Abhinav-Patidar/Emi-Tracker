@@ -56,15 +56,12 @@ async function loadLoans() {
   try {
     const data = await api("/api/loans/");
 
-    console.log("Loans API response:", data);
-
     // Django REST Framework may return a paginated response.
     if (Array.isArray(data)) {
       setLoans(data);
     } else if (Array.isArray(data.results)) {
       setLoans(data.results);
     } else {
-      console.error("Unexpected loans API response:", data);
       setLoans([]);
       setError("Unexpected response from the loans API.");
     }
@@ -381,7 +378,7 @@ async function loadLoans() {
         </section>
       )}
 
-      <footer>VariCash · Loan EMI Tracker · Built with React, Django & PostgreSQL</footer>
+      <footer>Loan EMI Tracker · Built with React, Django & PostgreSQL</footer>
     </main>
   );
 }
